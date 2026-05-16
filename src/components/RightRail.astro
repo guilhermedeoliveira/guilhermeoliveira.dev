@@ -9,13 +9,10 @@ const { articles } = Astro.props;
 ---
 
 <aside class="right-rail" aria-label="Recent writing">
-  <div class="rail-header">
-    <p class="eyebrow">Recent writing</p>
-    <a href="/articles/">All articles</a>
-  </div>
+  <p class="eyebrow rail-eyebrow">Recent writing</p>
   <ol class="timeline">
     {
-      articles.slice(0, 5).map((article) => (
+      articles.slice(0, 4).map((article) => (
         <li>
           <time datetime={article.data.date.toISOString()}>
             {formatDate(article.data.date)}
@@ -26,7 +23,7 @@ const { articles } = Astro.props;
       ))
     }
   </ol>
-  <a class="search-link" href="/search/">Search the archive</a>
+  <a class="all-articles" href="/articles/">View all articles</a>
 </aside>
 
 <style>
@@ -42,19 +39,11 @@ const { articles } = Astro.props;
     background: rgba(11, 15, 14, 0.56);
   }
 
-  .rail-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .rail-header p {
+  .rail-eyebrow {
     margin: 0;
   }
 
-  .rail-header a,
-  .search-link {
+  .all-articles {
     color: var(--mint-strong);
     font-size: 0.82rem;
   }
@@ -106,13 +95,8 @@ const { articles } = Astro.props;
     line-height: 1.55;
   }
 
-  .search-link {
-    margin-top: auto;
-    border: 1px solid var(--line);
-    border-radius: 0.7rem;
-    padding: 0.85rem;
-    background: rgba(17, 22, 20, 0.82);
-    text-align: center;
+  .all-articles {
+    margin-top: 0.5rem;
   }
 
   @media (max-width: 1160px) {
@@ -125,10 +109,6 @@ const { articles } = Astro.props;
 
     .timeline {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .search-link {
-      margin-top: 0;
     }
   }
 

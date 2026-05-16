@@ -2,17 +2,15 @@
 import ProjectCard from "@components/ProjectCard.astro";
 import RightRail from "@components/RightRail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { getArticles, getIdeas, getProjects } from "@lib/content";
+import { getArticles, getProjects } from "@lib/content";
 
-const [projects, articles, ideas] = await Promise.all([
+const [projects, articles] = await Promise.all([
   getProjects(),
   getArticles(),
-  getIdeas(),
 ]);
 const featuredProjects = projects
   .filter((project) => project.data.featured)
   .slice(0, 6);
-const activeIdeas = ideas.slice(0, 3);
 ---
 
 <BaseLayout>
@@ -25,36 +23,13 @@ const activeIdeas = ideas.slice(0, 3);
 
       <section class="selected-work" aria-labelledby="selected-work-title">
         <div class="section-heading">
-          <div>
-            <p class="eyebrow">Portfolio</p>
-            <h2 id="selected-work-title">Selected work</h2>
-          </div>
-          <a href="/projects/">All projects</a>
+          <p class="eyebrow">Portfolio</p>
+          <h2 id="selected-work-title">Selected work</h2>
         </div>
         <div class="project-grid">
           {featuredProjects.map((project) => <ProjectCard project={project} />)}
         </div>
-      </section>
-
-      <section class="idea-strip" aria-labelledby="ideas-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Ideas</p>
-            <h2 id="ideas-title">Currently exploring</h2>
-          </div>
-          <a href="/ideas/">All ideas</a>
-        </div>
-        <div class="ideas">
-          {
-            activeIdeas.map((idea) => (
-              <a href={`/ideas/${idea.slug}/`}>
-                <span>{idea.data.status}</span>
-                <strong>{idea.data.title}</strong>
-                <p>{idea.data.summary}</p>
-              </a>
-            ))
-          }
-        </div>
+        <a class="section-link" href="/projects/">View all projects</a>
       </section>
     </section>
 
@@ -90,21 +65,12 @@ const activeIdeas = ideas.slice(0, 3);
     line-height: 1;
   }
 
-  .selected-work,
-  .idea-strip {
+  .selected-work {
     border-top: 1px solid var(--line);
     padding-top: 1.4rem;
   }
 
-  .idea-strip {
-    margin-top: 2rem;
-  }
-
   .section-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1rem;
     margin-bottom: 1rem;
   }
 
@@ -120,7 +86,9 @@ const activeIdeas = ideas.slice(0, 3);
     line-height: 1;
   }
 
-  .section-heading a {
+  .section-link {
+    display: inline-block;
+    margin-top: 1.4rem;
     color: var(--mint-strong);
     font-size: 0.9rem;
   }
@@ -129,39 +97,6 @@ const activeIdeas = ideas.slice(0, 3);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
-  }
-
-  .ideas {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.9rem;
-  }
-
-  .ideas a {
-    display: grid;
-    gap: 0.55rem;
-    border: 1px solid var(--line);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    background: rgba(17, 22, 20, 0.68);
-  }
-
-  .ideas span {
-    color: var(--copper);
-    font-size: 0.74rem;
-    text-transform: uppercase;
-  }
-
-  .ideas strong {
-    color: var(--text);
-    line-height: 1.25;
-  }
-
-  .ideas p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.55;
   }
 
   @media (max-width: 1160px) {
@@ -175,14 +110,8 @@ const activeIdeas = ideas.slice(0, 3);
   }
 
   @media (max-width: 760px) {
-    .project-grid,
-    .ideas {
+    .project-grid {
       grid-template-columns: 1fr;
-    }
-
-    .section-heading {
-      align-items: start;
-      flex-direction: column;
     }
 
     .hero h1 {
