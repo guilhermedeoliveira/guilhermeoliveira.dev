@@ -1,0 +1,234 @@
+---
+import ProjectCard from "@components/ProjectCard.astro";
+import RightRail from "@components/RightRail.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getArticles, getIdeas, getProjects } from "@lib/content";
+
+const [projects, articles, ideas] = await Promise.all([
+  getProjects(),
+  getArticles(),
+  getIdeas(),
+]);
+const featuredProjects = projects
+  .filter((project) => project.data.featured)
+  .slice(0, 4);
+const activeIdeas = ideas.slice(0, 3);
+---
+
+<BaseLayout>
+  <div class="home-grid">
+    <section class="home-main" data-pagefind-body>
+      <header class="hero">
+        <p class="eyebrow">Systems, automation, and thoughtful software</p>
+        <h1>Building reliable tools for real work.</h1>
+        <p>
+          I am Guilherme Oliveira, a software engineer focused on practical
+          systems, developer tools, knowledge workflows, and the kind of
+          automation that quietly makes serious work easier.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="/projects/">View projects</a>
+          <a href="/articles/">Read articles</a>
+        </div>
+      </header>
+
+      <section class="selected-work" aria-labelledby="selected-work-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Portfolio</p>
+            <h2 id="selected-work-title">Selected work</h2>
+          </div>
+          <a href="/projects/">All projects</a>
+        </div>
+        <div class="project-grid">
+          {featuredProjects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </section>
+
+      <section class="idea-strip" aria-labelledby="ideas-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ideas</p>
+            <h2 id="ideas-title">Currently exploring</h2>
+          </div>
+          <a href="/ideas/">All ideas</a>
+        </div>
+        <div class="ideas">
+          {
+            activeIdeas.map((idea) => (
+              <a href={`/ideas/${idea.slug}/`}>
+                <span>{idea.data.status}</span>
+                <strong>{idea.data.title}</strong>
+                <p>{idea.data.summary}</p>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </section>
+
+    <RightRail articles={articles} />
+  </div>
+</BaseLayout>
+
+<style>
+  .home-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    min-height: 100vh;
+  }
+
+  .home-main {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  .hero {
+    display: grid;
+    gap: 1rem;
+    max-width: 760px;
+    padding: 1rem 0 2.4rem;
+  }
+
+  .hero h1 {
+    max-width: 10ch;
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(3rem, 8vw, 6.8rem);
+    letter-spacing: 0;
+    line-height: 0.9;
+  }
+
+  .hero p {
+    max-width: 58ch;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1rem, 0.92rem + 0.4vw, 1.18rem);
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 0.2rem;
+  }
+
+  .hero-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 0.7rem;
+    padding: 0 1rem;
+    color: var(--text);
+    background: rgba(17, 22, 20, 0.88);
+  }
+
+  .hero-actions a.primary {
+    border-color: rgba(142, 191, 175, 0.42);
+    color: #08110e;
+    background: var(--mint-strong);
+  }
+
+  .selected-work,
+  .idea-strip {
+    border-top: 1px solid var(--line);
+    padding-top: 1.4rem;
+  }
+
+  .idea-strip {
+    margin-top: 2rem;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-heading p,
+  .section-heading h2 {
+    margin: 0;
+  }
+
+  .section-heading h2 {
+    margin-top: 0.25rem;
+    color: var(--text);
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.35rem);
+    line-height: 1;
+  }
+
+  .section-heading a {
+    color: var(--mint-strong);
+    font-size: 0.9rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .ideas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .ideas a {
+    display: grid;
+    gap: 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    background: rgba(17, 22, 20, 0.68);
+  }
+
+  .ideas span {
+    color: var(--copper);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+  }
+
+  .ideas strong {
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .ideas p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1160px) {
+    .home-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+      max-width: 12ch;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .project-grid,
+    .ideas {
+      grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .hero h1 {
+      max-width: none;
+    }
+  }
+</style>

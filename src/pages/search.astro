@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Search"
+  description="Search projects, articles, and ideas by Guilherme Oliveira."
+>
+  <section class="search-page">
+    <header>
+      <p class="eyebrow">Archive</p>
+      <h1>Search the site.</h1>
+      <p>Find projects, articles, and working notes across the archive.</p>
+    </header>
+    <div id="search"></div>
+  </section>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    new window.PagefindUI({
+      element: "#search",
+      showSubResults: true,
+      showImages: false,
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .search-page {
+    max-width: 920px;
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    margin: 0.45rem 0 0.75rem;
+    color: var(--text);
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.93;
+  }
+
+  header p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+
+  #search {
+    --pagefind-ui-primary: var(--mint-strong);
+    --pagefind-ui-text: var(--text);
+    --pagefind-ui-background: var(--panel);
+    --pagefind-ui-border: var(--line);
+    --pagefind-ui-tag: var(--panel-soft);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 10px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-font: inherit;
+  }
+</style>

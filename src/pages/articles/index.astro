@@ -1,0 +1,59 @@
+---
+import ContentListItem from "@components/ContentListItem.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getArticles } from "@lib/content";
+
+const articles = await getArticles();
+---
+
+<BaseLayout
+  title="Articles"
+  description="Technical essays and engineering notes by Guilherme Oliveira."
+>
+  <section class="listing" data-pagefind-body>
+    <header>
+      <p class="eyebrow">Articles</p>
+      <h1>Writing on software, systems, and useful tools.</h1>
+      <p>
+        Longer essays about engineering judgment, architecture, automation, and
+        the craft of building.
+      </p>
+    </header>
+    <div class="list">
+      {
+        articles.map((article) => (
+          <ContentListItem item={article} section="articles" />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .listing {
+    max-width: 900px;
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  header {
+    margin-bottom: 1.6rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1.5rem;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0.45rem 0 0.75rem;
+    color: var(--text);
+    font-size: clamp(2.6rem, 7vw, 5.6rem);
+    line-height: 0.93;
+  }
+
+  header p:last-child {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+</style>

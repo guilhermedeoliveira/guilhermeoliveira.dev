@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="About Guilherme Oliveira, software engineer."
+>
+  <section class="about" data-pagefind-body>
+    <p class="eyebrow">About</p>
+    <h1>Software engineer, systems thinker, tool builder.</h1>
+    <div class="content-prose">
+      <p>
+        I build software that tries to make real work calmer: reliable systems,
+        practical automations, knowledge workflows, and engineering interfaces
+        that are useful after the novelty wears off.
+      </p>
+      <p>
+        This site is my public workshop. Projects show what I have built,
+        articles capture what I have learned, and ideas keep track of the
+        problems I am still turning over.
+      </p>
+      <h2>What I care about</h2>
+      <ul>
+        <li>Systems that are legible under pressure.</li>
+        <li>Automation that removes toil without hiding judgment.</li>
+        <li>Writing as a way to make engineering decisions sharper.</li>
+        <li>Tools that respect the person doing the work.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    max-width: 860px;
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0.45rem 0 2rem;
+    color: var(--text);
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.93;
+  }
+</style>

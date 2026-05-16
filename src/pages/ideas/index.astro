@@ -1,0 +1,55 @@
+---
+import ContentListItem from "@components/ContentListItem.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getIdeas } from "@lib/content";
+
+const ideas = await getIdeas();
+---
+
+<BaseLayout
+  title="Ideas"
+  description="Short notes and ideas from Guilherme Oliveira."
+>
+  <section class="listing" data-pagefind-body>
+    <header>
+      <p class="eyebrow">Ideas</p>
+      <h1>Small bets and working notes.</h1>
+      <p>
+        Early thoughts, project seeds, and short observations before they become
+        polished articles.
+      </p>
+    </header>
+    <div class="list">
+      {ideas.map((idea) => <ContentListItem item={idea} section="ideas" />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .listing {
+    max-width: 900px;
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  header {
+    margin-bottom: 1.6rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1.5rem;
+  }
+
+  h1 {
+    max-width: 11ch;
+    margin: 0.45rem 0 0.75rem;
+    color: var(--text);
+    font-size: clamp(2.6rem, 7vw, 5.6rem);
+    line-height: 0.93;
+  }
+
+  header p:last-child {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+</style>

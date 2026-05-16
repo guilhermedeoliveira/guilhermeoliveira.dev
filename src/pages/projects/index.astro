@@ -1,0 +1,63 @@
+---
+import ProjectCard from "@components/ProjectCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getProjects } from "@lib/content";
+
+const projects = await getProjects();
+---
+
+<BaseLayout
+  title="Projects"
+  description="Selected software engineering projects by Guilherme Oliveira."
+>
+  <section class="listing" data-pagefind-body>
+    <header>
+      <p class="eyebrow">Portfolio</p>
+      <h1>Selected projects</h1>
+      <p>
+        Systems, tools, and experiments designed around reliability, clarity,
+        and real workflows.
+      </p>
+    </header>
+    <div class="grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .listing {
+    padding: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  header {
+    max-width: 720px;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    margin: 0.45rem 0 0.75rem;
+    color: var(--text);
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.92;
+  }
+
+  header p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
