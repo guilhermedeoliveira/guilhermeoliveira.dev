@@ -1,0 +1,82 @@
+---
+import Sidebar from "@components/Sidebar.astro";
+import "@styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "Portfolio, ideas, and articles from Guilherme Oliveira, software engineer.",
+  ogImage = "/og.svg",
+} = Astro.props;
+
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://guilhermeoliveira.dev",
+);
+const pageTitle = title
+  ? `${title} - Guilherme Oliveira`
+  : "Guilherme Oliveira - Software engineer";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Guilherme Oliveira"
+      href="/rss.xml"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta
+      property="og:image"
+      content={new URL(ogImage, Astro.site ?? canonical).toString()}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta
+      name="twitter:image"
+      content={new URL(ogImage, Astro.site ?? canonical).toString()}
+    />
+  </head>
+  <body>
+    <div class="site-shell app-grid">
+      <Sidebar />
+      <main id="content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .app-grid {
+    display: grid;
+    grid-template-columns: 17.5rem minmax(0, 1fr);
+  }
+
+  main {
+    min-width: 0;
+  }
+
+  @media (max-width: 920px) {
+    .app-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

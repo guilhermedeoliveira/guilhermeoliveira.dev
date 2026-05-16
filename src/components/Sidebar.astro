@@ -1,0 +1,183 @@
+---
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/projects/", label: "Portfolio" },
+  { href: "/articles/", label: "Articles" },
+  { href: "/ideas/", label: "Ideas" },
+  { href: "/about/", label: "About" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="sidebar" aria-label="Primary">
+  <a class="identity" href="/" aria-label="Guilherme Oliveira home">
+    <span class="mark">GO</span>
+    <span>
+      <strong>Guilherme Oliveira</strong>
+      <small>Software engineer</small>
+    </span>
+  </a>
+
+  <nav class="nav">
+    {
+      navItems.map((item) => {
+        const isActive =
+          item.href === "/"
+            ? currentPath === "/"
+            : currentPath.startsWith(item.href);
+
+        return (
+          <a class:list={["nav-link", { active: isActive }]} href={item.href}>
+            <span>{item.label}</span>
+          </a>
+        );
+      })
+    }
+  </nav>
+
+  <div class="sidebar-card">
+    <p class="eyebrow">Now</p>
+    <p>Building reliable tools for real work.</p>
+    <a href="mailto:hello@guilhermeoliveira.dev">hello@guilhermeoliveira.dev</a>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 2rem;
+    border-right: 1px solid var(--line);
+    padding: 2rem 1.35rem;
+    background: rgba(11, 15, 14, 0.76);
+    backdrop-filter: blur(18px);
+  }
+
+  .identity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: center;
+  }
+
+  .mark {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid rgba(142, 191, 175, 0.28);
+    border-radius: 0.7rem;
+    color: var(--text);
+    background: linear-gradient(
+      135deg,
+      rgba(142, 191, 175, 0.16),
+      rgba(216, 154, 99, 0.12)
+    );
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .identity strong,
+  .identity small {
+    display: block;
+  }
+
+  .identity strong {
+    color: var(--text);
+    font-size: 0.96rem;
+    line-height: 1.2;
+  }
+
+  .identity small {
+    margin-top: 0.2rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .nav {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 2.4rem;
+    border: 1px solid transparent;
+    border-radius: 0.55rem;
+    padding: 0 0.75rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    border-color: rgba(142, 191, 175, 0.18);
+    color: var(--text);
+    background: rgba(142, 191, 175, 0.08);
+  }
+
+  .sidebar-card {
+    margin-top: auto;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    color: var(--muted);
+    background: rgba(17, 22, 20, 0.78);
+  }
+
+  .sidebar-card p {
+    margin: 0;
+  }
+
+  .sidebar-card p + p {
+    margin-top: 0.65rem;
+    line-height: 1.55;
+  }
+
+  .sidebar-card a {
+    display: inline-block;
+    margin-top: 0.9rem;
+    color: var(--mint-strong);
+    font-size: 0.84rem;
+  }
+
+  @media (max-width: 920px) {
+    .sidebar {
+      position: relative;
+      min-height: auto;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 1rem;
+    }
+
+    .nav {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      overflow-x: auto;
+    }
+
+    .nav-link {
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .sidebar-card {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .nav {
+      grid-template-columns: repeat(5, max-content);
+      padding-bottom: 0.15rem;
+    }
+  }
+</style>
