@@ -1,14 +1,14 @@
 # guilhermeoliveira.dev
 
-Personal website for Guilherme Oliveira: portfolio projects, articles, and working ideas.
+Personal website for Guilherme Oliveira: portfolio projects, notes, and working ideas.
 
-The site is built as a static, content-first Astro app. Projects, articles, and ideas are typed content collections stored as MDX files.
+Static, content-first Astro app. Projects, notes, and ideas are typed content collections stored as MDX files.
 
 ## Stack
 
 - Astro + TypeScript
 - MDX content collections
-- Tailwind CSS v4 through the Vite plugin
+- Plain CSS with scoped `<style>` blocks per component (CSS variables in `src/styles/global.css`)
 - Pagefind static search
 - Astro RSS and sitemap
 - Cloudflare Pages deployment target
@@ -27,6 +27,8 @@ Installations should use npm 11.13.0 or newer so `min-release-age` is enforced d
 
 ## Local development
 
+Requires Node 22+.
+
 ```bash
 npm ci
 npm run dev
@@ -35,44 +37,31 @@ npm run dev
 Useful commands:
 
 ```bash
-npm run check
-npm run lint
-npm run build
+npm run typecheck   # astro check
+npm run lint        # prettier --check
+npm run build       # astro check, build to dist/, index with Pagefind
 npm run preview
 ```
-
-`npm run build` runs Astro type checks, builds the static site into `dist/`, and indexes the result with Pagefind.
 
 ## Content authoring
 
 Create new entries in:
 
 - `src/content/projects/`
-- `src/content/articles/`
+- `src/content/notes/`
 - `src/content/ideas/`
 
-Each entry is an MDX file with frontmatter validated by `src/content/config.ts`.
+Each entry is an MDX file with frontmatter validated by `src/content.config.ts`.
 
-Project entries include:
+Common fields (all collections): `title`, `summary`, `date`, `updated?`, `tags`, `draft`.
 
-- `title`
-- `summary`
-- `date`
-- `tags`
-- `featured`
-- `status`
-- `stack`
-- `role`
-- `outcome`
-- `links`
+Project-specific fields: `role`, `status` (`live` | `active` | `archived` | `concept` | `prototype`), `featured`, `stack`, `github?`, `website?`, `stars?`, `order`, `outcome?`, `links`.
 
-Article and idea entries include:
+Note-specific fields: `category`.
 
-- `title`
-- `summary`
-- `date`
-- `tags`
-- `category` or `status`
+Idea-specific fields: `status` (`seed` | `exploring` | `validated` | `shipped`, default `seed`).
+
+Dates are formatted in UTC at render time, so frontmatter dates should be treated as UTC.
 
 ## Cloudflare Pages
 
@@ -83,8 +72,6 @@ Recommended settings:
 - Build command: `npm run build`
 - Build output directory: `dist`
 - Node version: `22`
-
-Cloudflare Pages should be connected directly to the GitHub repository so every pull request gets a preview deployment and every merge to `main` deploys production.
 
 ## GitHub branch protection
 
@@ -97,6 +84,6 @@ Recommended `main` rules:
 
 ## Design reference
 
-The current visual direction comes from:
+The visual direction comes from:
 
 `design/mockups/homepage-dark-projects-writing-rail.png`
