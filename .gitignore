@@ -5,3 +5,4 @@ dist/
 .env.*
 pagefind/
 .DS_Store
+.claude/settings.local.json
