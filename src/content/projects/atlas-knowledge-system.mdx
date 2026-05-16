@@ -1,0 +1,31 @@
+---
+title: "Atlas knowledge system"
+summary: "A personal operating system for ingesting raw documents into a structured wiki with logs, linting, and query workflows."
+date: 2026-05-10
+tags: ["knowledge", "automation", "llm"]
+featured: true
+status: "active"
+stack: ["Python", "Make", "Markdown", "Google APIs", "LLM workflows"]
+role: "Designed and built the ingestion, routine, finance, and health workflows."
+outcome: "Turned scattered personal documents into a queryable, auditable knowledge base."
+links: []
+---
+
+Atlas is a local-first personal knowledge system. Raw source material lands in `raw/`, structured notes live in `wiki/`, and every operation appends to an auditable log.
+
+The interesting part is not the wiki. The interesting part is the operating model around it: ingestion commands, financial parsers, medical document routing, calendar conventions, lint checks, and query workflows that keep the system honest over time.
+
+## Design pressure
+
+Most personal knowledge systems fail because capture is easy and maintenance is expensive. Atlas reverses that pressure by making maintenance explicit:
+
+- Every source has a lifecycle.
+- Every wiki page has frontmatter and backlinks.
+- Every operation is logged.
+- Stale claims and conflicts have visible markers.
+
+The system is intentionally plain. Markdown, Make, and small scripts are easier to inspect than a clever app that becomes another thing to maintain.
+
+## Engineering lesson
+
+The durable part of a personal tool is not the interface. It is the contract between input, transformation, and review.

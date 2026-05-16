@@ -1,0 +1,21 @@
+---
+title: "Software that respects review"
+summary: "Useful tools leave traces: what changed, why it changed, and what a human should inspect next."
+date: 2026-02-19
+tags: ["engineering", "review", "operations"]
+category: "engineering"
+---
+
+Software that acts on your behalf should be designed around review.
+
+That does not mean every action needs a modal. It means the system should leave enough evidence that a human can understand what happened without reconstructing the whole run.
+
+## Good traces
+
+A good trace says what input was used, what rule fired, what output changed, and what confidence level the system has.
+
+For personal operations, this can be as simple as a log line, a table row, and a pending action marker.
+
+## Bad magic
+
+Bad magic hides the important part. It says "done" without showing the path.

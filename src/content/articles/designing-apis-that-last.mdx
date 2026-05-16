@@ -1,0 +1,21 @@
+---
+title: "Designing APIs that last"
+summary: "Practical patterns for versioning, evolvability, and keeping clients happy."
+date: 2026-05-12
+tags: ["api-design", "architecture"]
+category: "APIs"
+---
+
+APIs age in public. Every naming shortcut, implicit behavior, and missing error case becomes part of somebody else's production system.
+
+## Prefer additive change
+
+The most durable APIs make new behavior opt-in. Add fields before replacing them. Add endpoints before changing semantics. Keep old names working until the replacement is not merely better, but boring.
+
+## Make failures typed
+
+Good clients need to know whether to retry, ask the user, or stop. A durable API gives failures names and makes those names stable.
+
+## Write the migration first
+
+Before shipping a breaking change, write the migration guide. If the guide sounds absurd, the change probably is.

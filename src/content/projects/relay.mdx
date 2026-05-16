@@ -1,0 +1,25 @@
+---
+title: "relay"
+summary: "Reliable event delivery for distributed systems with at-least-once semantics."
+date: 2026-03-05
+tags: ["backend", "events", "distributed-systems"]
+role: "System design, API surface, operational model"
+status: "prototype"
+featured: false
+stack: ["Go", "gRPC", "PostgreSQL"]
+github: "https://github.com/guioc/relay"
+stars: 890
+order: 2
+---
+
+## Problem
+
+Most teams discover event delivery semantics only after the first incident. relay makes the trade-off visible: a small service that accepts events, stores them durably, and coordinates retries with clear delivery state.
+
+## Shape
+
+The project uses PostgreSQL as the source of truth and treats workers as replaceable executors. This keeps the debugging path simple: inspect the event row, understand the next action, and replay safely.
+
+## What I would change
+
+The next iteration would add a stronger schema registry story. The delivery mechanism is only half the promise; long-lived event contracts need first-class care.

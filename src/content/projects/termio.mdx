@@ -1,0 +1,27 @@
+---
+title: "termio"
+summary: "A fast, minimal terminal session manager with layouts, hotkeys, and persistence."
+date: 2026-04-18
+tags: ["developer-tools", "terminal", "rust"]
+role: "Product engineering, CLI design, persistence model"
+status: "active"
+featured: true
+stack: ["Rust", "Tokio", "CLI"]
+github: "https://github.com/guioc/termio"
+stars: 1200
+order: 1
+---
+
+## What it does
+
+termio keeps project terminal sessions organized without forcing a heavy workspace model. A developer can name layouts, reopen panes, and recover the last useful state after switching contexts.
+
+## Design notes
+
+The interesting part is not pane management. It is deciding what state deserves to survive. The tool keeps durable project intent separate from volatile terminal output so the restore path feels reliable rather than spooky.
+
+## Lessons
+
+- Fast startup matters more than a long command surface.
+- Configuration should be readable enough to edit during a debugging session.
+- Persistence works best when the recovery model is explicit.
