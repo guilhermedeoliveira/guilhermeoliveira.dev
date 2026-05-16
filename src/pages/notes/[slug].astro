@@ -1,0 +1,28 @@
+---
+import ContentLayout from "@layouts/ContentLayout.astro";
+import { readingTime, slugFromId } from "@lib/content";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const notes = await getCollection("notes", ({ data }) => !data.draft);
+
+  return notes.map((note) => ({
+    params: { slug: slugFromId(note.id) },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<ContentLayout
+  title={note.data.title}
+  summary={note.data.summary}
+  date={note.data.date}
+  tags={note.data.tags}
+  section="notes"
+  minutes={readingTime(note.body ?? "")}
+>
+  <Content />
+</ContentLayout>

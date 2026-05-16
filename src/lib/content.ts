@@ -3,7 +3,7 @@ export { readingTime } from "./reading-time";
 
 export type WithSlug<T> = T & { slug: string };
 export type Project = WithSlug<CollectionEntry<"projects">>;
-export type Article = WithSlug<CollectionEntry<"articles">>;
+export type Note = WithSlug<CollectionEntry<"notes">>;
 export type Idea = WithSlug<CollectionEntry<"ideas">>;
 
 export function slugFromId(id: string) {
@@ -24,8 +24,8 @@ export async function getProjects() {
     .sort(byDateDesc);
 }
 
-export async function getArticles() {
-  return (await getCollection("articles", ({ data }) => !data.draft))
+export async function getNotes() {
+  return (await getCollection("notes", ({ data }) => !data.draft))
     .map(withSlug)
     .sort(byDateDesc);
 }

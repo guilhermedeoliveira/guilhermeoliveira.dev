@@ -1,10 +1,10 @@
 ---
 import TagList from "./TagList.astro";
-import { formatDate, readingTime, type Article, type Idea } from "@lib/content";
+import { formatDate, readingTime, type Note, type Idea } from "@lib/content";
 
 interface Props {
-  item: Article | Idea;
-  section: "articles" | "ideas";
+  item: Note | Idea;
+  section: "notes" | "ideas";
 }
 
 const { item, section } = Astro.props;

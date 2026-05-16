@@ -1,18 +1,18 @@
 ---
 import ContentListItem from "@components/ContentListItem.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { getArticles } from "@lib/content";
+import { getNotes } from "@lib/content";
 
-const articles = await getArticles();
+const notes = await getNotes();
 ---
 
 <BaseLayout
-  title="Articles"
+  title="Notes"
   description="Technical essays and engineering notes by Guilherme Oliveira."
 >
   <section class="listing" data-pagefind-body>
     <header>
-      <p class="eyebrow">Articles</p>
+      <p class="eyebrow">Notes</p>
       <h1>Writing on software, systems, and useful tools.</h1>
       <p>
         Longer essays about engineering judgment, architecture, automation, and
@@ -20,11 +20,7 @@ const articles = await getArticles();
       </p>
     </header>
     <div class="list">
-      {
-        articles.map((article) => (
-          <ContentListItem item={article} section="articles" />
-        ))
-      }
+      {notes.map((note) => <ContentListItem item={note} section="notes" />)}
     </div>
   </section>
 </BaseLayout>

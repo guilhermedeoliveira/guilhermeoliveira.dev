@@ -1,29 +1,29 @@
 ---
-import { formatDate, type Article } from "@lib/content";
+import { formatDate, type Note } from "@lib/content";
 
 interface Props {
-  articles: Article[];
+  notes: Note[];
 }
 
-const { articles } = Astro.props;
+const { notes } = Astro.props;
 ---
 
 <aside class="right-rail" aria-label="Recent writing">
   <p class="eyebrow rail-eyebrow">Recent writing</p>
   <ol class="timeline">
     {
-      articles.slice(0, 4).map((article) => (
+      notes.slice(0, 4).map((note) => (
         <li>
-          <time datetime={article.data.date.toISOString()}>
-            {formatDate(article.data.date)}
+          <time datetime={note.data.date.toISOString()}>
+            {formatDate(note.data.date)}
           </time>
-          <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
-          <p>{article.data.summary}</p>
+          <a href={`/notes/${note.slug}/`}>{note.data.title}</a>
+          <p>{note.data.summary}</p>
         </li>
       ))
     }
   </ol>
-  <a class="all-articles" href="/articles/">View all articles</a>
+  <a class="all-notes" href="/notes/">View all notes</a>
 </aside>
 
 <style>
@@ -43,7 +43,7 @@ const { articles } = Astro.props;
     margin: 0;
   }
 
-  .all-articles {
+  .all-notes {
     color: var(--mint-strong);
     font-size: 0.82rem;
   }
@@ -95,7 +95,7 @@ const { articles } = Astro.props;
     line-height: 1.55;
   }
 
-  .all-articles {
+  .all-notes {
     margin-top: 0.5rem;
   }
 

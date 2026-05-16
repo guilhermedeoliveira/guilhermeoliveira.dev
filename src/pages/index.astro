@@ -2,11 +2,11 @@
 import ProjectCard from "@components/ProjectCard.astro";
 import RightRail from "@components/RightRail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { getArticles, getProjects } from "@lib/content";
+import { getNotes, getProjects } from "@lib/content";
 
-const [projects, articles] = await Promise.all([
+const [projects, notes] = await Promise.all([
   getProjects(),
-  getArticles(),
+  getNotes(),
 ]);
 const featuredProjects = projects
   .filter((project) => project.data.featured)
@@ -33,7 +33,7 @@ const featuredProjects = projects
       </section>
     </section>
 
-    <RightRail articles={articles} />
+    <RightRail notes={notes} />
   </div>
 </BaseLayout>
 
