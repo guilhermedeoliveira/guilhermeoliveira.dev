@@ -38,5 +38,5 @@ Static Astro site. Three content collections backed by MDX: `projects`, `notes`,
 
 - The CSS-variable color system in `global.css`.
 - The Pagefind setup (`build` script runs the index; `/search/` consumes it).
-- The sidebar clock — uses `America/Recife` (user is in Natal, Brazil).
+- The sidebar clock — uses the `America/Recife` timezone.
 - The supply-chain config in `.npmrc` (`save-exact`, `min-release-age`).
