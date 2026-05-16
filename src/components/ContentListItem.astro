@@ -1,0 +1,59 @@
+---
+import TagList from "./TagList.astro";
+import { formatDate, readingTime, type Article, type Idea } from "@lib/content";
+
+interface Props {
+  item: Article | Idea;
+  section: "articles" | "ideas";
+}
+
+const { item, section } = Astro.props;
+const minutes = readingTime(item.body ?? "");
+---
+
+<article class="content-item">
+  <a href={`/${section}/${item.slug}/`}>
+    <div class="meta">
+      <time datetime={item.data.date.toISOString()}
+        >{formatDate(item.data.date)}</time
+      >
+      <span>{minutes}</span>
+    </div>
+    <h2>{item.data.title}</h2>
+    <p>{item.data.summary}</p>
+    <TagList tags={item.data.tags.slice(0, 4)} />
+  </a>
+</article>
+
+<style>
+  .content-item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  a {
+    display: grid;
+    gap: 0.72rem;
+    padding: 1.2rem 0;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    color: var(--subtle);
+    font-size: 0.78rem;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.55rem);
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+</style>

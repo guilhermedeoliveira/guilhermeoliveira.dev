@@ -1,0 +1,140 @@
+---
+import { formatDate, type Article } from "@lib/content";
+
+interface Props {
+  articles: Article[];
+}
+
+const { articles } = Astro.props;
+---
+
+<aside class="right-rail" aria-label="Recent writing">
+  <div class="rail-header">
+    <p class="eyebrow">Recent writing</p>
+    <a href="/articles/">All articles</a>
+  </div>
+  <ol class="timeline">
+    {
+      articles.slice(0, 5).map((article) => (
+        <li>
+          <time datetime={article.data.date.toISOString()}>
+            {formatDate(article.data.date)}
+          </time>
+          <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+          <p>{article.data.summary}</p>
+        </li>
+      ))
+    }
+  </ol>
+  <a class="search-link" href="/search/">Search the archive</a>
+</aside>
+
+<style>
+  .right-rail {
+    position: sticky;
+    top: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 1.35rem;
+    border-left: 1px solid var(--line);
+    padding: 2rem 1.25rem;
+    background: rgba(11, 15, 14, 0.56);
+  }
+
+  .rail-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .rail-header p {
+    margin: 0;
+  }
+
+  .rail-header a,
+  .search-link {
+    color: var(--mint-strong);
+    font-size: 0.82rem;
+  }
+
+  .timeline {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    border-left: 1px solid rgba(142, 191, 175, 0.22);
+    padding-left: 0.9rem;
+  }
+
+  li::before {
+    position: absolute;
+    top: 0.28rem;
+    left: -0.27rem;
+    width: 0.48rem;
+    height: 0.48rem;
+    border-radius: 50%;
+    background: var(--copper);
+    content: "";
+  }
+
+  time {
+    display: block;
+    color: var(--subtle);
+    font-size: 0.72rem;
+  }
+
+  li a {
+    display: block;
+    margin-top: 0.28rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.28;
+  }
+
+  li p {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .search-link {
+    margin-top: auto;
+    border: 1px solid var(--line);
+    border-radius: 0.7rem;
+    padding: 0.85rem;
+    background: rgba(17, 22, 20, 0.82);
+    text-align: center;
+  }
+
+  @media (max-width: 1160px) {
+    .right-rail {
+      position: relative;
+      min-height: auto;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .search-link {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .timeline {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

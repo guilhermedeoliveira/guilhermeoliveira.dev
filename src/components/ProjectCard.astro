@@ -1,0 +1,118 @@
+---
+import TagList from "./TagList.astro";
+import { formatMonth, type Project } from "@lib/content";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const outcome = project.data.outcome ?? project.data.summary;
+---
+
+<article class:list={["project-card", { featured: project.data.featured }]}>
+  <a
+    href={`/projects/${project.slug}/`}
+    aria-label={`Read project: ${project.data.title}`}
+  >
+    <div class="project-meta">
+      <span>{formatMonth(project.data.date)}</span>
+      <span>{project.data.status}</span>
+    </div>
+    <h3>{project.data.title}</h3>
+    <p>{project.data.summary}</p>
+    <dl>
+      <div>
+        <dt>Role</dt>
+        <dd>{project.data.role}</dd>
+      </div>
+      <div>
+        <dt>Outcome</dt>
+        <dd>{outcome}</dd>
+      </div>
+    </dl>
+    <TagList tags={project.data.stack.slice(0, 4)} />
+  </a>
+</article>
+
+<style>
+  .project-card {
+    min-height: 100%;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background:
+      linear-gradient(135deg, rgba(142, 191, 175, 0.06), transparent 42%),
+      rgba(17, 22, 20, 0.9);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(142, 191, 175, 0.34);
+  }
+
+  .project-card.featured {
+    border-color: rgba(216, 154, 99, 0.36);
+    background:
+      linear-gradient(
+        145deg,
+        rgba(216, 154, 99, 0.12),
+        rgba(142, 191, 175, 0.07) 55%,
+        transparent
+      ),
+      rgba(17, 22, 20, 0.94);
+  }
+
+  a {
+    display: grid;
+    min-height: 100%;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--subtle);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.2rem, 1.1rem + 0.35vw, 1.45rem);
+    line-height: 1.15;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 0.85rem;
+  }
+
+  dt {
+    color: var(--subtle);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.2rem 0 0;
+    color: #d6ded8;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+</style>
