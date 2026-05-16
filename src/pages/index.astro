@@ -11,7 +11,7 @@ const [projects, articles, ideas] = await Promise.all([
 ]);
 const featuredProjects = projects
   .filter((project) => project.data.featured)
-  .slice(0, 4);
+  .slice(0, 6);
 const activeIdeas = ideas.slice(0, 3);
 ---
 
