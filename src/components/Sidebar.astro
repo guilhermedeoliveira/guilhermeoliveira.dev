@@ -146,10 +146,10 @@ const currentPath = Astro.url.pathname;
   (function () {
     var el = document.getElementById("sidebar-clock");
     if (!el) return;
-    var fmt = new Intl.DateTimeFormat("en-GB", {
-      hour: "2-digit",
+    var fmt = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
       minute: "2-digit",
-      hour12: false,
+      hour12: true,
       timeZone: "America/Recife",
     });
     var tick = function () {
@@ -226,7 +226,7 @@ const currentPath = Astro.url.pathname;
     align-items: center;
     gap: 1rem;
     color: var(--muted);
-    font-size: 0.83rem;
+    font-size: 0.86rem;
     line-height: 1;
     transition:
       color 160ms ease,
@@ -262,7 +262,7 @@ const currentPath = Astro.url.pathname;
     border-bottom: 1px solid rgba(184, 199, 190, 0.16);
     padding-bottom: 2rem;
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: 0.76rem;
     line-height: 1.65;
   }
 
