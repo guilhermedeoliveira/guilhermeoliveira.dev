@@ -1,13 +1,14 @@
 ---
-title: "Ut enim ad minim veniam"
-summary: "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor."
-date: 2025-04-05
-tags: ["ut", "veniam"]
-category: "Dolor"
+title: "Notes on PostgreSQL performance"
+summary: "Indexes, bloat, and query plans that actually help."
+date: 2024-04-10
+tags: ["postgresql", "performance"]
+category: "Databases"
 ---
 
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-doloremque laudantium, totam rem aperiam.
+PostgreSQL performance work is easiest when you keep the feedback loop close:
+measure the query, inspect the plan, change one thing, and measure again.
 
-Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-dicta sunt explicabo.
+Indexes are powerful, but they are not decoration. The best improvements often
+come from understanding cardinality, removing stale assumptions, and noticing
+when maintenance work has fallen behind the write pattern.

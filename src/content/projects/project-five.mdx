@@ -1,23 +1,23 @@
 ---
-title: "Consectetur pipeline"
-summary: "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
-date: 2025-01-18
-tags: ["consectetur", "pipeline"]
-role: "Lorem ipsum"
+title: "storekit"
+summary: "Lightweight library for building transactional outbox patterns in relational databases."
+date: 2024-03-18
+tags: ["databases", "outbox"]
+role: "Library author"
 status: "active"
 featured: true
-stack: ["Ipsa", "Quae", "Inventore"]
-github: "https://github.com/example/consectetur-pipeline"
-stars: 71
+stack: ["Go", "PostgreSQL"]
+github: "https://github.com/example/storekit"
+stars: 320
 order: 5
-outcome: "Magni dolores eos qui ratione voluptatem sequi."
+outcome: "Packaged a common reliability pattern into a small, readable library."
 ---
 
-Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et
-dolore magnam aliquam quaerat voluptatem.
+Storekit helps applications publish domain events safely after database
+transactions commit. It keeps the outbox pattern compact enough to understand
+and explicit enough to operate.
 
-## Ut enim ad minima
+## Reliability path
 
-Veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi
-ut aliquid ex ea commodi consequatur.
+The library focuses on predictable polling, clear lock behavior, and simple
+schema primitives that can be inspected without special tooling.

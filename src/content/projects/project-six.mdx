@@ -1,23 +1,23 @@
 ---
-title: "Eiusmod design lab"
-summary: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-date: 2024-12-30
-tags: ["eiusmod", "design"]
-role: "Lorem ipsum"
+title: "kvault"
+summary: "Encrypted key-value store with a clean API and modern cryptography."
+date: 2024-03-04
+tags: ["security", "storage"]
+role: "Systems engineer"
 status: "active"
 featured: true
-stack: ["Architecto", "Beatae", "Vitae"]
-github: "https://github.com/example/eiusmod-lab"
-stars: 58
+stack: ["Rust", "Serde", "AES-GCM"]
+github: "https://github.com/example/kvault"
+stars: 280
 order: 6
-outcome: "Aliquam quaerat voluptatem sequi nesciunt."
+outcome: "Created a small encrypted storage layer with predictable serialization and recovery."
 ---
 
-At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-excepturi sint occaecati cupiditate non provident.
+Kvault is a compact encrypted key-value store for applications that need local
+secrets without pulling in a large storage system.
 
-## Similique sunt
+## Storage model
 
-Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et
-dolorum fuga.
+The project keeps serialization, encryption, and recovery boundaries separate
+so callers can understand exactly where their data lives and how it is
+protected.

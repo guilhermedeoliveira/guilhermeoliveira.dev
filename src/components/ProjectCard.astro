@@ -3,22 +3,88 @@ import { type Project } from "@lib/content";
 
 interface Props {
   project: Project;
+  variant?: number;
+  showFeaturedBadge?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, variant = project.data.order - 1 } = Astro.props;
 const stack = project.data.stack.slice(0, 4);
+const showFeaturedBadge =
+  Astro.props.showFeaturedBadge ?? project.data.featured;
+const projectIcons = [
+  {
+    name: "terminal",
+    color: "mint",
+    path: "M5 4.2 8.8 8 5 11.8M9.8 11.8h3.2",
+  },
+  {
+    name: "network",
+    color: "blue",
+    path: "M8 2.6a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM4 10.4a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM12 10.4a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM7.2 6 5 10.8M8.8 6l2.2 4.8M5.8 12.2h4.4",
+  },
+  {
+    name: "chart",
+    color: "amber",
+    path: "M2.8 11.2 6 8l2.2 2.1 4.7-5M10 4.2h3v3",
+  },
+  {
+    name: "document",
+    color: "green",
+    path: "M4.5 2.3h5.1l2.9 2.9v8.5h-8zM9.5 2.3v3h3M6.5 8h3.6M6.5 10.4h3.6",
+  },
+  {
+    name: "database",
+    color: "blue",
+    path: "M4 4.8c0-1.2 1.8-2.1 4-2.1s4 .9 4 2.1-1.8 2.1-4 2.1-4-.9-4-2.1zM4 4.8v6.4c0 1.2 1.8 2.1 4 2.1s4-.9 4-2.1V4.8M4 8c0 1.2 1.8 2.1 4 2.1s4-.9 4-2.1",
+  },
+  {
+    name: "lock",
+    color: "coral",
+    path: "M4.3 7.1h7.4v6.1H4.3zM6 7.1V5.2a2 2 0 0 1 4 0v1.9M8 9.8v1.2",
+  },
+];
+const icon = projectIcons[Math.abs(variant) % projectIcons.length];
+const githubLabel = project.data.github
+  ? project.data.github.replace(/^https?:\/\/(www\.)?github\.com\//, "")
+  : "";
+
+function formatStars(stars: number) {
+  if (stars >= 1000) {
+    return `${(stars / 1000).toFixed(stars >= 10000 ? 0 : 1).replace(/\.0$/, "")}k`;
+  }
+
+  return String(stars);
+}
 ---
 
-<article class:list={["project-card", { featured: project.data.featured }]}>
+<article class:list={["project-card", `accent-${icon.color}`]}>
   <a
     href={`/projects/${project.slug}/`}
     aria-label={`Read project: ${project.data.title}`}
   >
-    <header class="card-head">
-      <h3>{project.data.title}</h3>
-      {project.data.featured && <span class="badge">Featured</span>}
-    </header>
-    <p class="summary">{project.data.summary}</p>
+    <div class="card-main">
+      <span class="project-icon" aria-hidden="true">
+        <svg
+          width="34"
+          height="34"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.15"
+        >
+          <path d={icon.path}></path>
+        </svg>
+      </span>
+      <div class="card-copy">
+        <header class="card-head">
+          <h3>{project.data.title}</h3>
+          {showFeaturedBadge && <span class="badge">Featured</span>}
+        </header>
+        <p class="summary">{project.data.summary}</p>
+      </div>
+    </div>
     {
       stack.length > 0 && (
         <ul class="chips" aria-label="Tech stack">
@@ -41,7 +107,7 @@ const stack = project.data.stack.slice(0, 4);
             >
               <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.93-.9-1.18-.9-1.18-.73-.5.06-.49.06-.49.81.06 1.24.84 1.24.84.72 1.24 1.9.88 2.36.67.07-.52.28-.88.5-1.08-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z" />
             </svg>
-            <span>{project.data.github.replace(/^https?:\/\/(www\.)?github\.com\//, "")}</span>
+            <span aria-label={githubLabel}>View on GitHub</span>
           </span>
         )
       }
@@ -57,7 +123,7 @@ const stack = project.data.stack.slice(0, 4);
             >
               <path d="M8 .25l2.36 4.78 5.27.77-3.81 3.72.9 5.25L8 12.27l-4.72 2.5.9-5.25L.37 5.8l5.27-.77L8 .25z" />
             </svg>
-            <span>{project.data.stars}</span>
+            <span>{formatStars(project.data.stars)}</span>
           </span>
         )
       }
@@ -69,11 +135,12 @@ const stack = project.data.stack.slice(0, 4);
   .project-card {
     position: relative;
     min-height: 100%;
-    border: 1px solid var(--line);
-    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(184, 199, 190, 0.16);
+    border-radius: 0.38rem;
     background:
-      linear-gradient(135deg, rgba(142, 191, 175, 0.06), transparent 42%),
-      rgba(17, 22, 20, 0.9);
+      radial-gradient(circle at 14% 20%, rgba(142, 191, 175, 0.08), transparent 16rem),
+      linear-gradient(180deg, rgba(13, 24, 23, 0.9), rgba(10, 17, 17, 0.92));
     transition:
       transform 160ms ease,
       border-color 160ms ease,
@@ -82,19 +149,30 @@ const stack = project.data.stack.slice(0, 4);
 
   .project-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(142, 191, 175, 0.34);
+    border-color: rgba(169, 218, 167, 0.36);
   }
 
-  .project-card.featured {
-    border-color: rgba(216, 154, 99, 0.34);
+  .project-card::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: rgba(184, 199, 190, 0.08);
+    content: "";
   }
 
   a {
     display: grid;
-    min-height: 100%;
-    grid-template-rows: auto auto 1fr auto;
-    gap: 0.8rem;
-    padding: 1.1rem 1.15rem;
+    min-height: 12.25rem;
+    grid-template-rows: 1fr auto auto;
+    gap: 0.85rem;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .card-main {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 1.05rem;
+    align-items: start;
   }
 
   .card-head {
@@ -107,29 +185,65 @@ const stack = project.data.stack.slice(0, 4);
   h3 {
     margin: 0;
     color: var(--text);
-    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-size: clamp(1.18rem, 1rem + 0.42vw, 1.36rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.16;
+  }
+
+  .project-icon {
+    display: inline-grid;
+    width: 3.85rem;
+    height: 3.85rem;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 0.36rem;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .accent-mint .project-icon {
+    color: var(--mint-strong);
+  }
+
+  .accent-blue .project-icon {
+    color: #8ec5ec;
+  }
+
+  .accent-amber .project-icon {
+    color: #f1b94d;
+  }
+
+  .accent-green .project-icon {
+    color: #a9d7ac;
+  }
+
+  .accent-coral .project-icon {
+    color: #f17c5c;
   }
 
   .badge {
     flex: 0 0 auto;
-    border: 1px solid rgba(216, 154, 99, 0.45);
-    border-radius: 999px;
-    padding: 0.18rem 0.5rem;
-    color: var(--copper);
-    background: rgba(216, 154, 99, 0.1);
+    margin-top: 0.05rem;
+    border: 1px solid rgba(214, 154, 72, 0.42);
+    border-radius: 0.26rem;
+    padding: 0.24rem 0.48rem 0.19rem;
+    color: #f1b94d;
+    background: rgba(214, 154, 72, 0.16);
     font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     line-height: 1;
   }
 
   .summary {
-    margin: 0;
+    margin: 0.55rem 0 0;
     color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.6;
+    font-family: var(--font-sans);
+    font-size: 0.87rem;
+    line-height: 1.55;
   }
 
   .chips {
@@ -142,13 +256,13 @@ const stack = project.data.stack.slice(0, 4);
   }
 
   .chips li {
-    border: 1px solid rgba(142, 191, 175, 0.2);
-    border-radius: 999px;
-    padding: 0.18rem 0.55rem;
-    color: var(--mint-strong);
-    background: rgba(142, 191, 175, 0.06);
-    font-size: 0.72rem;
-    line-height: 1.3;
+    border: 1px solid rgba(184, 199, 190, 0.13);
+    border-radius: 0.26rem;
+    padding: 0.28rem 0.55rem 0.24rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.035);
+    font-size: 0.74rem;
+    line-height: 1.1;
   }
 
   .card-foot {
@@ -156,10 +270,12 @@ const stack = project.data.stack.slice(0, 4);
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 0.75rem;
-    color: var(--subtle);
-    font-size: 0.78rem;
+    margin-inline: -1.25rem;
+    border-top: 1px solid rgba(184, 199, 190, 0.12);
+    padding: 0.74rem 1.25rem 0.72rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.018);
+    font-size: 0.74rem;
   }
 
   .repo,

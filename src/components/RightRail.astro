@@ -1,29 +1,49 @@
 ---
-import { formatDate, type Note } from "@lib/content";
+import { formatMonth, readingTime, type Note } from "@lib/content";
 
 interface Props {
   notes: Note[];
 }
 
 const { notes } = Astro.props;
+const railNotes = notes.slice(0, 5).map((note) => {
+  const [month, year] = formatMonth(note.data.date).split(" ");
+
+  return {
+    note,
+    month: month.toUpperCase(),
+    day: String(note.data.date.getUTCDate()).padStart(2, "0"),
+    year,
+    topic: note.data.category || note.data.tags[0],
+    time: readingTime(note.body),
+  };
+});
 ---
 
 <aside class="right-rail" aria-label="Recent writing">
-  <p class="eyebrow rail-eyebrow">Recent writing</p>
+  <h2>Recent writing</h2>
   <ol class="timeline">
     {
-      notes.slice(0, 4).map((note) => (
+      railNotes.map(({ note, month, day, year, topic, time }) => (
         <li>
           <time datetime={note.data.date.toISOString()}>
-            {formatDate(note.data.date)}
+            <span>{month} {day}</span>
+            <span>{year}</span>
           </time>
-          <a href={`/notes/${note.slug}/`}>{note.data.title}</a>
-          <p>{note.data.summary}</p>
+          <div class="note-copy">
+            <a href={`/notes/${note.slug}/`}>{note.data.title}</a>
+            <p>{note.data.summary}</p>
+            <p class="meta">
+              <span>{time}</span>
+              <span aria-hidden="true">•</span>
+              <span class="topic">{topic}</span>
+            </p>
+          </div>
         </li>
       ))
     }
   </ol>
-  <a class="all-notes" href="/notes/">View all notes</a>
+  <a class="all-notes" href="/notes/">View all notes -></a>
 </aside>
 
 <style>
@@ -33,24 +53,26 @@ const { notes } = Astro.props;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    gap: 1.35rem;
-    border-left: 1px solid var(--line);
-    padding: 2rem 1.25rem;
-    background: rgba(11, 15, 14, 0.56);
+    gap: 1.55rem;
+    border-left: 1px solid rgba(184, 199, 190, 0.14);
+    padding: 2.85rem 3rem 2.65rem 2.5rem;
+    background:
+      linear-gradient(180deg, rgba(7, 14, 15, 0.88), rgba(5, 10, 10, 0.78)),
+      rgba(7, 14, 14, 0.82);
   }
 
-  .rail-eyebrow {
+  h2 {
     margin: 0;
-  }
-
-  .all-notes {
-    color: var(--mint-strong);
-    font-size: 0.82rem;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.24rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.2;
   }
 
   .timeline {
     display: grid;
-    gap: 1.1rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -58,63 +80,120 @@ const { notes } = Astro.props;
 
   li {
     position: relative;
-    border-left: 1px solid rgba(142, 191, 175, 0.22);
-    padding-left: 0.9rem;
+    display: grid;
+    grid-template-columns: 5.45rem minmax(0, 1fr);
+    gap: 1.15rem;
+    border-bottom: 1px solid rgba(184, 199, 190, 0.14);
+    padding: 1.2rem 0 1.55rem;
+  }
+
+  li:last-child {
+    border-bottom: 0;
   }
 
   li::before {
     position: absolute;
-    top: 0.28rem;
-    left: -0.27rem;
-    width: 0.48rem;
-    height: 0.48rem;
-    border-radius: 50%;
-    background: var(--copper);
+    top: 1.55rem;
+    left: 0.2rem;
+    width: 0.58rem;
+    height: 0.58rem;
+    border: 1px solid var(--copper);
+    border-radius: 999px;
+    background: var(--panel);
+    content: "";
+    z-index: 1;
+  }
+
+  li::after {
+    position: absolute;
+    top: 1.55rem;
+    bottom: -1.55rem;
+    left: 0.48rem;
+    width: 1px;
+    background: rgba(214, 154, 72, 0.22);
     content: "";
   }
 
+  li:last-child::after {
+    bottom: 1.55rem;
+  }
+
   time {
-    display: block;
+    display: grid;
+    gap: 0.15rem;
+    align-content: start;
+    padding-left: 1.65rem;
     color: var(--subtle);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
   }
 
-  li a {
+  .note-copy {
+    min-width: 0;
+  }
+
+  .note-copy a {
     display: block;
-    margin-top: 0.28rem;
     color: var(--text);
-    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    font-size: 1rem;
     font-weight: 700;
-    line-height: 1.28;
+    letter-spacing: 0;
+    line-height: 1.42;
   }
 
-  li p {
-    margin: 0.35rem 0 0;
+  .note-copy p {
+    margin: 0.55rem 0 0;
     color: var(--muted);
-    font-size: 0.82rem;
+    font-family: var(--font-sans);
+    font-size: 0.83rem;
     line-height: 1.55;
   }
 
-  .all-notes {
-    margin-top: 0.5rem;
+  .note-copy .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    color: var(--subtle);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
   }
 
-  @media (max-width: 1160px) {
+  .topic {
+    color: var(--mint-strong);
+  }
+
+  .all-notes {
+    margin-top: auto;
+    color: var(--mint-strong);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 1220px) {
     .right-rail {
       position: relative;
       min-height: auto;
       border-left: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid rgba(184, 199, 190, 0.14);
+      padding: 2rem;
     }
 
     .timeline {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 2rem;
     }
   }
 
   @media (max-width: 680px) {
     .timeline {
       grid-template-columns: 1fr;
+    }
+
+    li {
+      grid-template-columns: 4.8rem minmax(0, 1fr);
+      gap: 0.9rem;
     }
   }
 </style>

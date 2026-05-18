@@ -1,27 +1,25 @@
 :root {
   color-scheme: dark;
-  --bg: #0b0f0e;
-  --panel: #111614;
-  --panel-soft: #151d1a;
-  --line: #2b3531;
-  --line-strong: #3c4944;
+  --bg: #050a0a;
+  --panel: #0c1514;
+  --panel-soft: #111b19;
+  --line: #27322f;
+  --line-strong: #35423d;
   --text: #f2f0e8;
-  --muted: #a9b5ae;
-  --subtle: #6d7a74;
-  --mint: #8ebfaf;
-  --mint-strong: #b4d8ca;
-  --copper: #d89a63;
+  --muted: #c6cbc5;
+  --subtle: #808b86;
+  --mint: #93cf9a;
+  --mint-strong: #a9daa7;
+  --copper: #d69a48;
   --amber: #e8c16f;
   --danger: #e07a63;
-  --max-width: 1440px;
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  --max-width: 1536px;
+  --font-display: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono",
+    Menlo, monospace;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-mono);
   background: var(--bg);
   color: var(--text);
 }
@@ -33,12 +31,9 @@
 html {
   min-width: 320px;
   background:
-    linear-gradient(180deg, rgba(142, 191, 175, 0.045), transparent 28rem),
-    radial-gradient(
-      circle at top right,
-      rgba(216, 154, 99, 0.08),
-      transparent 28rem
-    ),
+    radial-gradient(circle at 58% 18%, rgba(99, 143, 134, 0.13), transparent 33rem),
+    radial-gradient(circle at 12% 72%, rgba(131, 174, 151, 0.08), transparent 24rem),
+    linear-gradient(180deg, #0a1111 0%, #050909 62%, #030606 100%),
     var(--bg);
   scroll-behavior: smooth;
 }
@@ -47,10 +42,9 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--text);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px);
-  background-size: 38px 38px;
+  background:
+    radial-gradient(circle at 51% 48%, rgba(107, 148, 138, 0.07), transparent 28rem),
+    transparent;
 }
 
 a {
@@ -72,7 +66,8 @@ input {
   width: min(100%, var(--max-width));
   min-height: 100vh;
   margin: 0 auto;
-  border-inline: 1px solid rgba(255, 255, 255, 0.04);
+  border-inline: 1px solid rgba(184, 199, 190, 0.12);
+  background: rgba(4, 9, 9, 0.58);
 }
 
 .surface {
@@ -84,8 +79,8 @@ input {
 .eyebrow {
   color: var(--mint);
   font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
