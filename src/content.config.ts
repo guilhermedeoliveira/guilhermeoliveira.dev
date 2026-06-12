@@ -49,7 +49,9 @@ const ideas = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/ideas" }),
   schema: z.object({
     ...common,
-    status: z.enum(["seed", "exploring", "validated", "shipped"]).default("seed"),
+    status: z
+      .enum(["seed", "exploring", "validated", "shipped"])
+      .default("seed"),
   }),
 });
 

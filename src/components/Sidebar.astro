@@ -14,8 +14,7 @@ const navItems = [
 
 const iconPaths: Record<string, string> = {
   home: "M2.5 7.3 8 2.8l5.5 4.5v6.2H9.7V9.8H6.3v3.7H2.5V7.3z",
-  briefcase:
-    "M5.2 4.8V3.2h5.6v1.6M2.4 5.2h11.2v8.1H2.4zM2.4 8.2h11.2",
+  briefcase: "M5.2 4.8V3.2h5.6v1.6M2.4 5.2h11.2v8.1H2.4zM2.4 8.2h11.2",
   bulb: "M8 1.9a4.1 4.1 0 0 0-2.5 7.4c.5.4.8 1 .8 1.6h3.4c0-.6.3-1.2.8-1.6A4.1 4.1 0 0 0 8 1.9zM6.5 13.2h3M7 15h2M2.2 5.8H1M15 5.8h-1.2M3.5 2.3l-.8-.8M13.3 1.5l-.8.8",
   note: "M4 2.5h8v11H4zM6.2 5.6h3.7M6.2 8h3.7M6.2 10.4h2",
   user: "M12.6 14c0-2.3-2.1-4.1-4.6-4.1S3.4 11.7 3.4 14M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
@@ -55,7 +54,7 @@ const currentPath = Astro.url.pathname;
                 stroke-width="1.35"
                 aria-hidden="true"
               >
-                <path d={iconPaths[item.icon]}></path>
+                <path d={iconPaths[item.icon]} />
               </svg>
               <span>{item.label}</span>
             </a>

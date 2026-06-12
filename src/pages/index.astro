@@ -4,10 +4,7 @@ import RightRail from "@components/RightRail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getNotes, getProjects } from "@lib/content";
 
-const [projects, notes] = await Promise.all([
-  getProjects(),
-  getNotes(),
-]);
+const [projects, notes] = await Promise.all([getProjects(), getNotes()]);
 const featuredProjects = projects
   .filter((project) => project.data.featured)
   .sort((a, b) => a.data.order - b.data.order)
@@ -34,7 +31,8 @@ const featuredProjects = projects
               stroke-width="1.35"
               aria-hidden="true"
             >
-              <path d="M4 2.5h8v11H4zM6.2 5.8h3.6M6.2 8.2h3.6M6.2 10.6h2"></path>
+              <path d="M4 2.5h8v11H4zM6.2 5.8h3.6M6.2 8.2h3.6M6.2 10.6h2"
+              ></path>
             </svg>
             <span>View my resume</span>
           </a>

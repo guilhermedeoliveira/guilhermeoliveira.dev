@@ -27,7 +27,9 @@ const railNotes = notes.slice(0, 5).map((note) => {
       railNotes.map(({ note, month, day, year, topic, time }) => (
         <li>
           <time datetime={note.data.date.toISOString()}>
-            <span>{month} {day}</span>
+            <span>
+              {month} {day}
+            </span>
             <span>{year}</span>
           </time>
           <div class="note-copy">
